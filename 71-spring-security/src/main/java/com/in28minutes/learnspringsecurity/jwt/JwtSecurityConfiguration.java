@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import com.in28minutes.learnspringsecurity.service.UserInfoService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
@@ -23,8 +25,11 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -34,7 +39,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
-//@Configuration
+@Configuration
 public class JwtSecurityConfiguration {
 	
 	@Bean
@@ -58,23 +63,23 @@ public class JwtSecurityConfiguration {
 		http.headers(headers -> headers.frameOptions(frameOptionsConfig-> frameOptionsConfig.disable()));
 		
 		http.oauth2ResourceServer((oauth2) -> oauth2.jwt(withDefaults()));
-		
+		http.authenticationProvider(authenticationProvider());
 		
 		return http.build();
 	}
 	
-	@Bean
+	/* @Bean
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.H2)
 				.addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
 				.build();
-	}
+	} */
 	
 	@Bean
-	public UserDetailsService userDetailService(DataSource dataSource) {
+	public UserDetailsService userDetailService( ) {
 		
-		var user = User.withUsername("in28minutes")
+		/* var user = User.withUsername("in28minutes")
 			//.password("{noop}dummy")
 			.password("dummy")
 			.passwordEncoder(str -> passwordEncoder().encode(str))
@@ -92,7 +97,9 @@ public class JwtSecurityConfiguration {
 		jdbcUserDetailsManager.createUser(user);
 		jdbcUserDetailsManager.createUser(admin);
 
-		return jdbcUserDetailsManager;
+		return jdbcUserDetailsManager;*/
+		return new UserInfoService();
+
 	}
 	
 	@Bean
@@ -140,5 +147,18 @@ public class JwtSecurityConfiguration {
 	@Bean
 	public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
 		return new NimbusJwtEncoder(jwkSource);
+	}
+
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailService());
+		authenticationProvider.setPasswordEncoder(passwordEncoder());
+		return authenticationProvider;
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
 	}
 }
