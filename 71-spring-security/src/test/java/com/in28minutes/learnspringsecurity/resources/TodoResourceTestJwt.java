@@ -2,9 +2,12 @@ package com.in28minutes.learnspringsecurity.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.in28minutes.learnspringsecurity.jwt.JwtSecurityConfiguration;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -19,14 +22,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(TodoResource.class)
+//@WebMvcTest(TodoResource.class)
 @Import(JwtSecurityConfiguration.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class TodoResourceTestJwt {
 
-    @Autowired
+   @Autowired
     MockMvc mockMvc;
 
-    @Autowired
+   @Autowired
     ObjectMapper objectMapper;
 
     //Create a JWT for test purpose
