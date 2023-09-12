@@ -2,10 +2,11 @@ package com.in28minutes.learnspringsecurity.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-//import lombok.Data;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="user_info")
@@ -15,7 +16,7 @@ public class UserInfo {
     private String password;
     private String roles;
 
-    public String getName() {
+    /*public String getName() {
         return name;
     }
 
@@ -37,5 +38,5 @@ public class UserInfo {
 
     public void setRoles(String roles) {
         this.roles = roles;
-    }
+    }*/
 }
