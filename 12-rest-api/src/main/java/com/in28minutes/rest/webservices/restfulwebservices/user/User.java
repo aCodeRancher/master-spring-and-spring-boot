@@ -5,10 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -16,12 +13,9 @@ import jakarta.validation.constraints.Size;
 @Entity(name = "user_details")
 public class User {
 	
-	protected User() {
-		
-	}
-	
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Size(min=2, message = "Name should have atleast 2 characters")
@@ -35,9 +29,12 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private List<Post> posts;
- 	
+
+	public User(){
+
+	}
 	public User(Integer id, String name, LocalDate birthDate) {
-		super();
+
 		this.id = id;
 		this.name = name;
 		this.birthDate = birthDate;
