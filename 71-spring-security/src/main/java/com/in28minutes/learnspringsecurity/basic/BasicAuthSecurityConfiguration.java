@@ -21,11 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
-@Configuration
-@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
+//@Configuration
+//@EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 public class BasicAuthSecurityConfiguration {
 	
-	@Bean
+	//@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests(
@@ -71,7 +71,7 @@ public class BasicAuthSecurityConfiguration {
 //		return new InMemoryUserDetailsManager(user, admin);
 //	}
 	
-	@Bean
+	//@Bean
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder()
 				.setType(EmbeddedDatabaseType.H2)
@@ -79,7 +79,7 @@ public class BasicAuthSecurityConfiguration {
 				.build();
 	}
 	
-	@Bean
+	//@Bean
 	public UserDetailsService userDetailService(DataSource dataSource) {
 		
 		var user = User.withUsername("in28minutes")
@@ -103,7 +103,7 @@ public class BasicAuthSecurityConfiguration {
 		return jdbcUserDetailsManager;
 	}
 	
-	@Bean
+	//@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
