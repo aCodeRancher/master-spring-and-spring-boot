@@ -8,8 +8,9 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
+@RestController
 public class JwtAuthenticationResource {
 	
 	private JwtEncoder jwtEncoder;
@@ -29,7 +30,7 @@ public class JwtAuthenticationResource {
 								.issuedAt(Instant.now())
 								.expiresAt(Instant.now().plusSeconds(60 * 30))
 								.subject(authentication.getName())
-								.claim("scope", createScope(authentication))
+				                .claim("scope", createScope(authentication))
 								.build();
 		
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims))

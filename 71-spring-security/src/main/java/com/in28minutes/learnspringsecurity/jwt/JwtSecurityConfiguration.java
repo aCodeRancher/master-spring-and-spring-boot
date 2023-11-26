@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
@@ -34,7 +35,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 
-//@Configuration
+@Configuration
 public class JwtSecurityConfiguration {
 	
 	@Bean
