@@ -1,8 +1,10 @@
-create table course 
+
+drop table if exists course;
+create table course
 (
 	id bigint not null,
 	name varchar(255) not null,
 	author varchar(255) not null,
 	primary key (id)
 
-);
+) ;
